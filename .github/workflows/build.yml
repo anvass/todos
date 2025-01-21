@@ -37,6 +37,9 @@ jobs:
 
       - name: Cypress e2e-tests
         uses: cypress-io/github-action@v6
+        with:
+          build: npm run build
+          start: npm start
 
       - name: Setup Pages
         uses: actions/configure-pages@v3
