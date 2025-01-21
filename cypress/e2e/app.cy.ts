@@ -1,7 +1,7 @@
 describe('Проверка работоспособности App', () => {
   beforeEach(() => {
     cy.visit('/');
-
+    localStorage.clear();
     cy.get('input[type="text"]').should('be.visible');
     cy.get('input[type="text"]').type('Купить корм коту{enter}');
     cy.get('input[type="text"]').type('Покормить кота{enter}');
