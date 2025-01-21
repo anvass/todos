@@ -32,8 +32,6 @@ const filterTodoItems = (todoItems: TodoItem[], mode: Mode) => {
     if (mode === 'all') {
       return true;
     }
-
-    // return true;
   });
 };
 
@@ -130,7 +128,8 @@ function App() {
             >
               <Box mb={{ base: 2, md: 0 }}>
                 <Text>
-                  {todoItems.filter((item) => !item.isCompleted).length} item(s) left
+                  {/* {todoItems.filter((item) => !item.isCompleted).length} item(s) left */}
+                  {filterTodoItems(todoItems, 'active').length} item(s) left
                 </Text>
               </Box>
               <Box mb={{ base: 2, md: 0 }}>
