@@ -129,7 +129,9 @@ function App() {
               alignItems={'center'}
             >
               <Box mb={{ base: 2, md: 0 }}>
-                <Text>{todoItems.length} item(s) left</Text>
+                <Text>
+                  {todoItems.filter((item) => !item.isCompleted).length} item(s) left
+                </Text>
               </Box>
               <Box mb={{ base: 2, md: 0 }}>
                 <Button onClick={allClickHandler} mr={2} size="xs">
