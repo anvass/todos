@@ -10,7 +10,7 @@ import {
   Button,
   Text,
 } from '@chakra-ui/react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 interface TodoItem {
   id: number;
@@ -19,6 +19,15 @@ interface TodoItem {
 }
 
 type Mode = 'all' | 'active' | 'completed';
+
+const TODO_KEY = 'todoItems';
+
+let storedItems: TodoItem[];
+try {
+  storedItems = JSON.parse(localStorage.getItem(TODO_KEY) || '') || [];
+} catch {
+  storedItems = [];
+}
 
 const filterTodoItems = (todoItems: TodoItem[], mode: Mode) => {
   return todoItems.filter((todoItem) => {
@@ -36,8 +45,16 @@ const filterTodoItems = (todoItems: TodoItem[], mode: Mode) => {
 };
 
 function App() {
-  const [todoItems, setTodoItems] = useState<TodoItem[]>([]);
+  const [todoItems, setTodoItems] = useState<TodoItem[]>(storedItems);
   const [mode, setMode] = useState<Mode>('all');
+
+  const saveTodoItemsToLocalStorage = (objects: TodoItem[]) => {
+    localStorage.setItem(TODO_KEY, JSON.stringify(objects));
+  };
+
+  useEffect(() => {
+    saveTodoItemsToLocalStorage(todoItems);
+  }, [todoItems]);
 
   const keyPressInputHandler: React.KeyboardEventHandler = (e) => {
     if (e.key === 'Enter') {
@@ -84,7 +101,7 @@ function App() {
     const onlyActiveItems = todoItems.filter(
       (todoItem) => !todoItem.isCompleted
     );
-    onlyActiveItems.map((item, index) => (item.id = index + 1));
+    onlyActiveItems.forEach((item, index) => (item.id = index + 1));
     setTodoItems(onlyActiveItems);
   };
 
@@ -128,7 +145,6 @@ function App() {
             >
               <Box mb={{ base: 2, md: 0 }}>
                 <Text>
-                  {/* {todoItems.filter((item) => !item.isCompleted).length} item(s) left */}
                   {filterTodoItems(todoItems, 'active').length} item(s) left
                 </Text>
               </Box>
